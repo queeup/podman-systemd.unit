@@ -1,0 +1,36 @@
+# This file created for podman-systemd.unit (quadlet)
+# https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+
+[Unit]
+Description=Portainer container
+Requires=portainer-volume.service podman.socket
+Wants=network-online.target
+After=network-online.target podman.socket portainer-volume.service
+
+[Container]
+ContainerName=portainer
+
+Image=docker.io/portainer/portainer-ce
+
+Pull=newer
+
+AutoUpdate=registry
+
+Label=hide=true
+
+Timezone=local
+# PodmanArgs=--log-driver journald
+
+PublishPort=9443:9443
+
+Volume=portainer.volume:/data
+Volume=/run/user/1000/podman/podman.sock:/var/run/docker.sock
+
+Exec=--hide-label hide=true
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+[Install]
+WantedBy=multi-user.target default.target

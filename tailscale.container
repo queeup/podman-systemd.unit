@@ -1,0 +1,44 @@
+# This file created for podman-systemd.unit (quadlet)
+# https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+
+[Unit]
+Description=Tailscaled container
+Requires=tailscale-volume.service
+Wants=network-online.target
+After=network-online.target tailscale-volume.service
+
+[Container]
+ContainerName=tailscaled
+
+Image=docker.io/tailscale/tailscale
+
+Pull=newer
+
+AutoUpdate=registry
+
+Label=hide=true
+
+Timezone=local
+
+DropCapability=
+
+AddCapability=NET_ADMIN NET_RAW
+
+Environment=TS_AUTHKEY=tskey-auth-yoursecretkey
+Environment=TS_USERSPACE=true
+Environment=TS_STATE_DIR=/var/lib/tailscale
+Environment=TS_SOCKET=/var/run/tailscale/tailscaled.sock
+
+Network=host
+
+Volume=tailscale.volume:/var/lib/tailscale
+Volume=/lib/modules:/lib/modules:ro
+
+AddDevice=/dev/net/tun
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+[Install]
+WantedBy=multi-user.target default.target

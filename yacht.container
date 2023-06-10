@@ -1,0 +1,39 @@
+# This file created for podman-systemd.unit (quadlet)
+# https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+
+[Unit]
+Description=Yacht container
+Requires=yacht-volume.service podman.socket
+Wants=network-online.target
+After=network-online.target podman.socket yacht-volume.service
+
+[Container]
+ContainerName=yacht
+
+Image=docker.io/selfhostedpro/yacht
+
+Pull=newer
+
+AutoUpdate=registry
+
+Label=hide=true
+
+DropCapability=
+
+Timezone=local
+
+Environment=DISABLE_AUTH=True
+Environment=PUID=0
+Environment=PGID=0
+
+PublishPort=8000:8000
+
+Volume=yacht.volume:/config
+Volume=/var/run/user/1000/podman/podman.sock:/var/run/docker.sock
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+[Install]
+WantedBy=multi-user.target default.target
