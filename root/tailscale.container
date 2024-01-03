@@ -1,0 +1,52 @@
+# This file created for podman-systemd.unit (quadlet)
+# https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+
+[Unit]
+Description=Tailscaled container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=tailscaled
+
+Image=docker.io/tailscale/tailscale
+
+Pull=newer
+
+AutoUpdate=registry
+
+Timezone=local
+
+AddCapability=NET_ADMIN NET_RAW
+
+Environment=TS_AUTHKEY=tskey-auth-yoursecretkey
+Environment=TS_USERSPACE=false
+Environment=TS_STATE_DIR=/var/lib/tailscale
+Environment=TS_SOCKET=/var/run/tailscale/tailscaled.sock
+Environment=TS_ACCEPT_DNS=true
+Environment=TS_EXTRA_ARGS=--accept-routes
+
+Network=host
+
+Volume=tailscale:/var/lib/tailscale
+Volume=/lib/modules:/lib/modules:ro
+# For MagicDNS to work
+Volume=/etc/resolv.conf:/etc/resolv.conf
+Volume=/run/dbus/system_bus_socket:/run/dbus/system_bus_socket
+
+AddDevice=/dev/net/tun
+
+PodmanArgs=--privileged
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+# TODO: Change dns suffix with shell command
+#   sudo podman exec -it tailscaled tailscale status --json | jq -r '.MagicDNSSuffix | select(.!="")'
+# - Comment out this lines if you dont want to mount resolv.conf & system_bus_socket volumes
+# ExecStartPost=resolvectl domain tailscale0 tail5656yd.ts.net
+# ExecStartPost=resolvectl dns tailscale0 100.100.100.100
+
+[Install]
+WantedBy=multi-user.target default.target
