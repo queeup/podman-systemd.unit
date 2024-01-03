@@ -18,8 +18,6 @@ AutoUpdate=registry
 
 Label=hide=true
 
-DropCapability=
-
 Timezone=local
 
 Environment=DISABLE_AUTH=True

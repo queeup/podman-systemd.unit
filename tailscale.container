@@ -19,8 +19,6 @@ Label=hide=true
 
 Timezone=local
 
-DropCapability=
-
 AddCapability=NET_ADMIN NET_RAW
 
 Environment=TS_AUTHKEY=tskey-auth-yoursecretkey

@@ -23,8 +23,6 @@ Group=1000
 
 Timezone=local
 
-DropCapability=
-
 Environment=PUID=1000
 Environment=PGID=1000
 Environment=STGUIADDRESS=
