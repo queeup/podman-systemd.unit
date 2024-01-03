@@ -3,9 +3,9 @@
 
 [Unit]
 Description=Portainer container
-Requires=portainer-volume.service podman.socket
+Requires=podman.socket
 Wants=network-online.target
-After=network-online.target podman.socket portainer-volume.service
+After=network-online.target podman.socket
 
 [Container]
 ContainerName=portainer
@@ -23,7 +23,7 @@ Timezone=local
 
 PublishPort=9443:9443
 
-Volume=portainer.volume:/data
+Volume=portainer:/data
 Volume=/run/user/1000/podman/podman.sock:/var/run/docker.sock
 
 Exec=--hide-label hide=true

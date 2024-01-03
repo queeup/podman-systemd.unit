@@ -1,4 +1,0 @@
-# This file created for podman-systemd.unit (quadlet)
-[Volume]
-User=1000
-Group=1000

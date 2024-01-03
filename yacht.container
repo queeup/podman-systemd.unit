@@ -3,9 +3,9 @@
 
 [Unit]
 Description=Yacht container
-Requires=yacht-volume.service podman.socket
+Requires=podman.socket
 Wants=network-online.target
-After=network-online.target podman.socket yacht-volume.service
+After=network-online.target podman.socket
 
 [Container]
 ContainerName=yacht
@@ -28,7 +28,7 @@ Environment=PGID=0
 
 PublishPort=8000:8000
 
-Volume=yacht.volume:/config
+Volume=yacht:/config
 Volume=/var/run/user/1000/podman/podman.sock:/var/run/docker.sock
 
 [Service]

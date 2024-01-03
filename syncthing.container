@@ -3,9 +3,8 @@
 
 [Unit]
 Description=Syncthing container
-Requires=syncthing-volume.service
 Wants=network-online.target
-After=network-online.target syncthing-volume.service
+After=network-online.target
 
 [Container]
 ContainerName=syncthing
@@ -36,7 +35,7 @@ Network=host
 # PublishPort=22000:22000/udp
 # PublishPort=21027:21027/udp
 
-Volume=syncthing.volume:/var/syncthing
+Volume=syncthing:/var/syncthing
 Volume=/host/directory:/container/directory
 
 PodmanArgs=--no-healthcheck --log-driver journald

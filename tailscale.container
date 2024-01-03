@@ -3,9 +3,8 @@
 
 [Unit]
 Description=Tailscaled container
-Requires=tailscale-volume.service
 Wants=network-online.target
-After=network-online.target tailscale-volume.service
+After=network-online.target
 
 [Container]
 ContainerName=tailscaled
@@ -31,7 +30,7 @@ Environment=TS_SOCKET=/var/run/tailscale/tailscaled.sock
 
 Network=host
 
-Volume=tailscale.volume:/var/lib/tailscale
+Volume=tailscale:/var/lib/tailscale
 Volume=/lib/modules:/lib/modules:ro
 
 AddDevice=/dev/net/tun
