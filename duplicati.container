@@ -1,0 +1,31 @@
+# This file created for quadlet
+[Unit]
+Description=Duplicati container 
+
+[Container]
+ContainerName=duplicati
+Image=docker.io/duplicati/duplicati:canary
+HostName=duplicati
+Label="io.containers.autoupdate=registry"
+Label="hide=true"
+
+RemapUsers=keep-id
+User=1000
+Group=1000
+Timezone=local
+
+Environment=PUID=1000
+Environment=PGID=1000
+#Environment=TZ=Europe/Istanbul
+
+PublishPort=8200:8200
+
+Volume=duplicati-data:/data
+Volume=/host/directory:/backups
+Volume=/:/sources
+
+[Service]
+Restart=on-failure
+
+#[Install]
+#WantedBy=multi-user.target default.target

@@ -1,0 +1,34 @@
+# This file created for podman-systemd.unit (quadlet)
+[Unit]
+Description=Homer container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=homer
+
+Image=docker.io/b4bz/homer
+
+Pull=newer
+
+AutoUpdate=registry
+
+Label=hide=true
+
+RemapUsers=keep-id
+User=1000
+Group=1000
+
+Timezone=local
+
+PublishPort=8080:8080
+
+Volume=homer_data:/www/assets
+Volume=/host/directory/config.yml:/www/assets/config.yml:bind
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+[Install]
+WantedBy=multi-user.target default.target

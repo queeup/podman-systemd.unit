@@ -1,0 +1,29 @@
+# This file created for quadlet
+[Unit]
+Description=Restic rest server container 
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=restic-rest-server
+Image=docker.io/restic/rest-server:latest
+Label="io.containers.autoupdate=registry"
+Label="hide=true"
+
+RemapUsers=keep-id
+User=1000
+Group=1000
+Timezone=local
+
+Environment=DISABLE_AUTHENTICATION="yes"
+
+PublishPort=8000:8000
+
+Volume=/host/directory:/data
+
+[Service]
+Restart=on-failure
+#Restart=never
+
+[Install]
+WantedBy=multi-user.target default.target
