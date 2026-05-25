@@ -1,0 +1,21 @@
+[Unit]
+Description=Flatnotes container
+
+[Container]
+ContainerName=flatnotes
+Image=docker.io/dullage/flatnotes:latest
+Pull=newer
+AutoUpdate=registry
+Timezone=local
+PublishPort=8030:8080
+Volume=${DOCUMENTS_DIR}:/data
+Environment=FLATNOTES_AUTH_TYPE=none
+Environment=PUID=1000
+Environment=PGID=1000
+
+[Service]
+Restart=on-failure
+ExecStartPre=/bin/sh -c 'systemctl --user set-environment DOCUMENTS_DIR=$(xdg-user-dir DOCUMENTS)/flatnotes'
+
+[Install]
+WantedBy=default.target
