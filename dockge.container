@@ -1,0 +1,24 @@
+[Unit]
+Description=Dockge container
+
+[Container]
+ContainerName=dockge
+Image=docker.io/louislam/dockge:latest
+Pull=newer
+AutoUpdate=registry
+Label=hide=true
+Timezone=local
+PublishPort=5001:5001
+#Volume=dockge_stacks.volume:/opt/stacks
+#Volume=dockge_data.volume:/app/data
+Volume=/var/run/user/1000/podman/podman.sock:/var/run/docker.sock
+UserNS=keep-id:uid=1000,gid=1000
+GroupAdd=keep-groups
+Environment=DOCKGE_STACKS_DIR=/opt/stacks
+
+[Service]
+Restart=on-failure
+# Restart=no
+
+[Install]
+WantedBy=default.target
