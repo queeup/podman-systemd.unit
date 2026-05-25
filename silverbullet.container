@@ -1,0 +1,18 @@
+[Unit]
+Description=Silverbullet container
+
+[Container]
+ContainerName=silverbullet
+Image=ghcr.io/silverbulletmd/silverbullet:v2
+Pull=newer
+AutoUpdate=registry
+Timezone=local
+PublishPort=3000:3000
+Volume=${SILVERBULLET_DIR}:/space
+
+[Service]
+Restart=on-failure
+ExecStartPre=/bin/sh -c 'systemctl --user set-environment SILVERBULLET_DIR=$(xdg-user-dir DOCUMENTS)/Silverbullet'
+
+[Install]
+WantedBy=default.target
